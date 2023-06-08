@@ -55,7 +55,7 @@ func testVerifier() PGPVerify {
 func TestSignTextDetached(t *testing.T) {
 	var err error
 
-	textSignature, err = testSignerText().Sign([]byte(signedPlainText), nil)
+	textSignature, err = testSignerText().Sign([]byte(signedPlainText))
 	if err != nil {
 		t.Fatal("Cannot generate signature:", err)
 	}
@@ -105,7 +105,7 @@ func checkVerificationError(t *testing.T, err error, expectedStatus int) {
 func TestSignBinDetached(t *testing.T) {
 	var err error
 
-	binSignature, err = testSigner().Sign([]byte(signedPlainText), nil)
+	binSignature, err = testSigner().Sign([]byte(signedPlainText))
 	if err != nil {
 		t.Fatal("Cannot generate signature:", err)
 	}
@@ -141,7 +141,7 @@ func Test_KeyRing_GetVerifiedSignatureTimestampSuccess(t *testing.T) {
 		SignTime(timeLocal).
 		Detached().
 		New()
-	signature, err := signer.Sign(message, nil)
+	signature, err := signer.Sign(message)
 	if err != nil {
 		t.Errorf("Got an error while generating the signature: %v", err)
 	}
@@ -253,7 +253,7 @@ func Test_KeyRing_GetVerifiedSignatureTimestampError(t *testing.T) {
 		SigningKeys(keyRingTestPrivate).
 		Detached().
 		New()
-	signature, err := signer.Sign(message, nil)
+	signature, err := signer.Sign(message)
 	if err != nil {
 		t.Errorf("Got an error while generating the signature: %v", err)
 	}
@@ -281,7 +281,7 @@ func Test_SignDetachedWithNonCriticalContext(t *testing.T) {
 		Detached().
 		New()
 	// when
-	signature, err := signer.Sign([]byte(testMessage), nil)
+	signature, err := signer.Sign([]byte(testMessage))
 	// then
 	if err != nil {
 		t.Fatal(err)
@@ -326,7 +326,7 @@ func Test_SignDetachedWithCriticalContext(t *testing.T) {
 		Detached().
 		New()
 	// when
-	signature, err := signer.Sign([]byte(testMessage), nil)
+	signature, err := signer.Sign([]byte(testMessage))
 	// then
 	if err != nil {
 		t.Fatal(err)
