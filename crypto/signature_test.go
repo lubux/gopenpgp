@@ -78,8 +78,8 @@ func TestSignTextDetached(t *testing.T) {
 	assert.Regexp(t, signatureTest, string(armoredSignature))
 
 	verificationError, _ := testVerifier().VerifyDetached([]byte(signedPlainText), textSignature)
-	if verificationError.HasSignatureError() {
-		t.Fatal("Cannot verify plaintext signature:", verificationError.SignatureError())
+	if err = verificationError.SignatureError(); err != nil {
+		t.Fatal("Cannot verify plaintext signature:", err)
 	}
 
 	fakeMessage := []byte("wrong text")
@@ -128,8 +128,8 @@ func TestSignBinDetached(t *testing.T) {
 	assert.Regexp(t, signatureTest, string(armoredSignature))
 
 	verificationError, _ := testVerifier().VerifyDetached([]byte(signedPlainText), binSignature)
-	if verificationError.HasSignatureError() {
-		t.Fatal("Cannot verify binary signature:", verificationError.SignatureError())
+	if err = verificationError.SignatureError(); err != nil {
+		t.Fatal("Cannot verify binary signature:", err)
 	}
 }
 
@@ -263,7 +263,7 @@ func Test_KeyRing_GetVerifiedSignatureTimestampError(t *testing.T) {
 		VerifyTime(timeLocal).
 		New()
 	verificationResult, _ := verifier.VerifyDetached(messageCorrupted, signature)
-	if !verificationResult.HasSignatureError() {
+	if verificationResult.SignatureError() == nil {
 		t.Errorf("Expected an error while parsing the creation time of a wrong signature, got nil")
 	}
 }
@@ -398,7 +398,7 @@ func Test_VerifyWithUnKnownNonCriticalContext(t *testing.T) {
 		New()
 	result, _ := verifier.VerifyDetached([]byte(testMessage), sig)
 	// then
-	if result.HasSignatureError() {
+	if err = result.SignatureError(); err != nil {
 		t.Fatalf("Expected no verification error, got %v", err)
 	}
 }
@@ -427,7 +427,7 @@ func Test_VerifyWithKnownCriticalContext(t *testing.T) {
 		New()
 	result, _ := verifier.VerifyDetached([]byte(testMessage), sig)
 	// then
-	if result.HasSignatureError() {
+	if err = result.SignatureError(); err != nil {
 		t.Fatalf("Expected no verification error, got %v", err)
 	}
 }
@@ -483,7 +483,7 @@ func Test_VerifyWithMissingNonRequiredContext(t *testing.T) {
 		New()
 	result, _ := verifier.VerifyDetached([]byte(testMessage), sig)
 	// then
-	if result.HasSignatureError() {
+	if err = result.SignatureError(); err != nil {
 		t.Fatalf("Expected no verification error, got %v", err)
 	}
 }
@@ -546,7 +546,7 @@ func Test_VerifyWithMissingRequiredContextBeforeCutoff(t *testing.T) {
 		New()
 	result, _ := verifier.VerifyDetached([]byte(testMessage), sig)
 	// then
-	if result.HasSignatureError() {
+	if err = result.SignatureError(); err != nil {
 		t.Fatalf("Expected no verification error, got %v", err)
 	}
 }
