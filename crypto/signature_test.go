@@ -46,7 +46,7 @@ func testSigner() PGPSign {
 
 func testVerifier() PGPVerify {
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerifyTime(testTime).
 		New()
 	return verifier
@@ -146,7 +146,7 @@ func Test_KeyRing_GetVerifiedSignatureTimestampSuccess(t *testing.T) {
 		t.Errorf("Got an error while generating the signature: %v", err)
 	}
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerifyTime(timeLocal).
 		New()
 	verificationResult, _ := verifier.VerifyDetached(message, signature)
@@ -191,7 +191,7 @@ func Test_KeyRing_GetVerifiedSignatureWithTwoKeysTimestampSuccess(t *testing.T) 
 	}
 
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRing).
+		VerificationKeys(keyRing).
 		DisableVerifyTimeCheck().
 		New()
 
@@ -259,7 +259,7 @@ func Test_KeyRing_GetVerifiedSignatureTimestampError(t *testing.T) {
 	}
 	messageCorrupted := []byte("Ciao world!")
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerifyTime(timeLocal).
 		New()
 	verificationResult, _ := verifier.VerifyDetached(messageCorrupted, signature)
@@ -372,7 +372,7 @@ func Test_VerifyWithUnknownCriticalContext(t *testing.T) {
 
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		DisableVerifyTimeCheck().
 		New()
 	result, _ := verifier.VerifyDetached([]byte(testMessage), sig)
@@ -393,7 +393,7 @@ func Test_VerifyWithUnKnownNonCriticalContext(t *testing.T) {
 	}
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		DisableVerifyTimeCheck().
 		New()
 	result, _ := verifier.VerifyDetached([]byte(testMessage), sig)
@@ -421,7 +421,7 @@ func Test_VerifyWithKnownCriticalContext(t *testing.T) {
 	)
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerificationContext(verificationContext).
 		DisableVerifyTimeCheck().
 		New()
@@ -450,7 +450,7 @@ func Test_VerifyWithWrongContext(t *testing.T) {
 	)
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerificationContext(verificationContext).
 		DisableVerifyTimeCheck().
 		New()
@@ -477,7 +477,7 @@ func Test_VerifyWithMissingNonRequiredContext(t *testing.T) {
 	)
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerificationContext(verificationContext).
 		DisableVerifyTimeCheck().
 		New()
@@ -506,7 +506,7 @@ func Test_VerifyWithMissingRequiredContext(t *testing.T) {
 	)
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerificationContext(verificationContext).
 		DisableVerifyTimeCheck().
 		New()
@@ -540,7 +540,7 @@ func Test_VerifyWithMissingRequiredContextBeforeCutoff(t *testing.T) {
 	)
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerificationContext(verificationContext).
 		DisableVerifyTimeCheck().
 		New()
@@ -576,7 +576,7 @@ func Test_VerifyWithMissingRequiredContextAfterCutoff(t *testing.T) {
 	)
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerificationContext(verificationContext).
 		DisableVerifyTimeCheck().
 		New()
@@ -602,7 +602,7 @@ func Test_VerifyWithDoubleContext(t *testing.T) {
 	)
 	// when
 	verifier, _ := testPGP.Verify().
-		VerifyKeys(keyRingTestPublic).
+		VerificationKeys(keyRingTestPublic).
 		VerificationContext(verificationContext).
 		DisableVerifyTimeCheck().
 		New()
